@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import { moviesApi, tvApi } from "../api";
 import styled from "styled-components";
-import Loader from "../../Components/Loader";
+import Loader from "../Components/Loader";
 import Helmet from "react-helmet";
 
 const Container = styled.div`
@@ -68,8 +68,44 @@ const Overview = styled.p`
   width: 50%;
 `;
 
-const DetailPresenter = ({ result, loading, error }) =>
-  loading ? (
+const Detail = ({
+  location: { pathname },
+  match: {
+    params: { id },
+  },
+  history: { push },
+}) => {
+  const [loading, setLoading] = useState(true);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+  const isMovie = pathname.includes("/movie/");
+
+  const handleDetail = async () => {
+    const parsedId = parseInt(id);
+    if (isNaN(parsedId)) {
+      return push("/");
+    }
+    let tmpResult = null;
+    try {
+      if (isMovie) {
+        ({ data: tmpResult } = await moviesApi.movieDetail(parsedId));
+      } else {
+        ({ data: tmpResult } = await tvApi.showDetail(parsedId));
+      }
+
+      setResult(tmpResult);
+    } catch {
+      setError("Can't find anything.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleDetail();
+  }, []);
+
+  return loading ? (
     <>
       <Helmet>
         <title>Loading | Nomflix</title>
@@ -80,7 +116,9 @@ const DetailPresenter = ({ result, loading, error }) =>
     <Container>
       <Helmet>
         <title>
-          {result.original_title ? result.original_title : result.original_name}{" "}
+          {result && result.original_title
+            ? result.original_title
+            : result.original_name}{" "}
           | Nomflix
         </title>
       </Helmet>
@@ -92,12 +130,12 @@ const DetailPresenter = ({ result, loading, error }) =>
           bgImage={
             result.poster_path
               ? `https://image.tmdb.org/t/p/original${result.poster_path}`
-              : require("../../Assets/noPosterSmall.png")
+              : require("../assets/noPosterSmall.png")
           }
         />
         <Data>
           <Title>
-            {result.original_title
+            {result && result.original_title
               ? result.original_title
               : result.original_name}
           </Title>
@@ -126,11 +164,6 @@ const DetailPresenter = ({ result, loading, error }) =>
       </Content>
     </Container>
   );
-
-DetailPresenter.propTypes = {
-  result: PropTypes.object,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.string,
 };
 
-export default DetailPresenter;
+export default Detail;
