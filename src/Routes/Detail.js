@@ -57,6 +57,13 @@ const ItemContainer = styled.div`
 
 const Item = styled.span``;
 
+const SmallImg = styled.img`
+  padding-top: 5px;
+  width: 30px;
+  height: 15px;
+  object-fit: cover;
+`;
+
 const Divider = styled.span`
   margin: 0 10px;
 `;
@@ -66,6 +73,12 @@ const Overview = styled.p`
   opacity: 0.7;
   line-height: 1.5;
   width: 50%;
+  margin-bottom: 30px;
+`;
+
+const VideoFrame = styled.iframe`
+  width: 560px;
+  height: 315px;
 `;
 
 const Detail = ({
@@ -158,8 +171,26 @@ const Detail = ({
                     : `${genre.name} / `
                 )}
             </Item>
+            <Divider>•</Divider>
+            <Item>
+              <a
+                href={`https://www.imdb.com/title/${result.imdb_id}`}
+                target="_sub"
+              >
+                <SmallImg src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/IMDB_Logo_2016.svg/1200px-IMDB_Logo_2016.svg.png"></SmallImg>
+              </a>
+            </Item>
           </ItemContainer>
           <Overview>{result.overview}</Overview>
+          {result.videos.results &&
+            result.videos.results.map((result) => (
+              <VideoFrame
+                src={`https://www.youtube.com/embed/${result.key}`}
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></VideoFrame>
+            ))}
         </Data>
       </Content>
     </Container>
