@@ -48,7 +48,14 @@ const Year = styled.span`
 `;
 
 const Poster = ({ id, imageUrl, title, rating, year, isMovie = false }) => (
-  <Link to={isMovie ? `/movie/${id}` : `/show/${id}`}>
+  <Link
+    to={{
+      pathname: isMovie ? `/movie/${id}` : `/show/${id}`,
+      state: {
+        rating,
+      },
+    }}
+  >
     <Container>
       <ImageContainer>
         <Image

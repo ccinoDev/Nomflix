@@ -18,6 +18,8 @@ const Header = styled.header`
 
 const List = styled.ul`
   display: flex;
+  font-size: 16px;
+  padding-left: 15px;
 `;
 
 const Item = styled.li`
@@ -27,6 +29,9 @@ const Item = styled.li`
   border-bottom: 3px solid
     ${(props) => (props.current ? "#3498db" : "transparent")};
   transition: border-bottom 0.5s ease-in-out;
+  &:hover {
+    color: rgb(126, 214, 223);
+  }
 `;
 
 const SLink = styled(Link)`
@@ -36,13 +41,26 @@ const SLink = styled(Link)`
   justify-content: center;
 `;
 
+const Nomflix = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  color: rgb(214, 48, 49);
+  margin-right: 30px;
+  margin-left: 20px;
+`;
+
 export default withRouter(({ location: { pathname } }) => (
   <Header>
     <List>
-      <Item current={pathname === "/"}>
+      <Item>
+        <SLink to="/">
+          <Nomflix>Nomflix</Nomflix>
+        </SLink>
+      </Item>
+      <Item current={pathname === "/" || pathname.substring(0, 2) === "/m"}>
         <SLink to="/">Movies</SLink>
       </Item>
-      <Item current={pathname === "/tv"}>
+      <Item current={pathname === "/tv" || pathname.substring(0, 3) === "/sh"}>
         <SLink to="/tv">TV</SLink>
       </Item>
       <Item current={pathname === "/search"}>

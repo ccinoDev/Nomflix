@@ -3,6 +3,8 @@ import { moviesApi, tvApi } from "../api";
 import styled from "styled-components";
 import Loader from "../Components/Loader";
 import Helmet from "react-helmet";
+import { DetailTabs } from "../Components/DetailTabs";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   height: calc(100vh - 50px);
@@ -76,13 +78,13 @@ const Overview = styled.p`
   margin-bottom: 30px;
 `;
 
-const VideoFrame = styled.iframe`
-  width: 560px;
-  height: 315px;
+const Rating = styled.span`
+  font-size: 18px;
+  margin-left: 10px;
 `;
 
 const Detail = ({
-  location: { pathname },
+  location: { pathname, state },
   match: {
     params: { id },
   },
@@ -151,6 +153,13 @@ const Detail = ({
             {result && result.original_title
               ? result.original_title
               : result.original_name}
+            <Rating>
+              (
+              <span role="img" aria-label="rating">
+                ⭐️
+              </span>{" "}
+              {state.rating} / 10)
+            </Rating>
           </Title>
           <ItemContainer>
             <Item>
@@ -180,17 +189,25 @@ const Detail = ({
                 <SmallImg src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/IMDB_Logo_2016.svg/1200px-IMDB_Logo_2016.svg.png"></SmallImg>
               </a>
             </Item>
+            {result.belongs_to_collection ? (
+              <>
+                <Divider>•</Divider>
+                <Link to={`/collection/${result.belongs_to_collection.id}`}>
+                  <Item>
+                    <span style={{ color: "#44bd32" }}>COLLECTIONS</span>
+                  </Item>
+                </Link>
+              </>
+            ) : (
+              ""
+            )}
           </ItemContainer>
           <Overview>{result.overview}</Overview>
-          {result.videos.results &&
-            result.videos.results.map((result) => (
-              <VideoFrame
-                src={`https://www.youtube.com/embed/${result.key}`}
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></VideoFrame>
-            ))}
+          <DetailTabs
+            key={result.id}
+            id={result.id}
+            result={result}
+          ></DetailTabs>
         </Data>
       </Content>
     </Container>

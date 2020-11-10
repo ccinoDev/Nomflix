@@ -24,7 +24,7 @@ const Input = styled.input`
 `;
 
 const Search = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [result, setResult] = useState({
     movieResults: null,
