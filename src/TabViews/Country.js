@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import noImage from "../assets/noPosterSmall.png";
+import noImage from "../Assets/noPosterSmall.png";
 
 const Container = styled.div``;
 

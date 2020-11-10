@@ -5,7 +5,7 @@ import Loader from "../Components/Loader";
 import Helmet from "react-helmet";
 import { DetailTabs } from "../Components/DetailTabs";
 import { Link } from "react-router-dom";
-import noImage from "../assets/noPosterSmall.png";
+import noImage from "../Assets/noPosterSmall.png";
 
 const Container = styled.div`
   height: calc(100vh - 50px);

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import noImage from "../assets/noPosterSmall.png";
+import noImage from "../Assets/noPosterSmall.png";
 
 const Container = styled.div`
   font-size: 12px;
