@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import noImage from "../assets/noPosterSmall.png";
 
 const Container = styled.div``;
 
@@ -23,7 +24,7 @@ const Country = ({ id, name }) => (
       bgUrl={
         id
           ? `https://cdn.ipregistry.co/flags/twemoji/${id.toLowerCase()}.svg`
-          : require("../assets/noPosterSmall.png")
+          : noImage
       }
     />
     <Name>{name}</Name>

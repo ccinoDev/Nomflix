@@ -5,6 +5,7 @@ import Loader from "../Components/Loader";
 import Helmet from "react-helmet";
 import { DetailTabs } from "../Components/DetailTabs";
 import { Link } from "react-router-dom";
+import noImage from "../assets/noPosterSmall.png";
 
 const Container = styled.div`
   height: calc(100vh - 50px);
@@ -145,7 +146,7 @@ const Detail = ({
           bgImage={
             result.poster_path
               ? `https://image.tmdb.org/t/p/original${result.poster_path}`
-              : require("../assets/noPosterSmall.png")
+              : noImage
           }
         />
         <Data>

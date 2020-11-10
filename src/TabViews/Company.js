@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import noImage from "../assets/noPosterSmall.png";
 
 const Container = styled.div``;
 
@@ -19,13 +20,7 @@ const Name = styled.h3`
 
 const Company = ({ logo, name }) => (
   <Container>
-    <Image
-      bgUrl={
-        logo
-          ? `https://image.tmdb.org/t/p/w300${logo}`
-          : require("../assets/noPosterSmall.png")
-      }
-    />
+    <Image bgUrl={logo ? `https://image.tmdb.org/t/p/w300${logo}` : noImage} />
     <Name>{name}</Name>
   </Container>
 );
