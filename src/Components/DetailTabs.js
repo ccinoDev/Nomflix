@@ -36,14 +36,15 @@ const Item = styled.li`
   transition: border-bottom 0.5s ease-in-out;
 `;
 
-const tabNames = ["Videos", "Companies", "Countries"];
+const tabNamesMovie = ["Videos", "Companies", "Countries"];
+const tabNamesTV = ["Videos", "Companies", "Seasons"];
 
-export const DetailTabs = ({ result }) => {
+export const DetailTabs = ({ result, isMovie }) => {
   const [clickState, setClickState] = useState(0);
   const handleTabs = (idx) => {
     setClickState(idx);
   };
-  const selectTab = (idx, result) => {
+  const selectTab = (idx, result, isMovie) => {
     let renderData = null;
     switch (idx) {
       case 0:
@@ -72,18 +73,21 @@ export const DetailTabs = ({ result }) => {
         }
         break;
       case 2:
-        if (result.production_countries) {
-          renderData = (
-            <Section title="Production Countries">
-              {result.production_countries.map((countries) => (
-                <Country
-                  key={countries.iso_3166_1}
-                  id={countries.iso_3166_1}
-                  name={countries.name}
-                ></Country>
-              ))}
-            </Section>
-          );
+        if (isMovie) {
+          if (result.production_countries) {
+            renderData = (
+              <Section title="Production Countries">
+                {result.production_countries.map((countries) => (
+                  <Country
+                    key={countries.iso_3166_1}
+                    id={countries.iso_3166_1}
+                    name={countries.name}
+                  ></Country>
+                ))}
+              </Section>
+            );
+          }
+        } else {
         }
         break;
       default:
@@ -96,17 +100,27 @@ export const DetailTabs = ({ result }) => {
   return (
     <Header>
       <List>
-        {tabNames.map((name, idx) => (
-          <Item
-            key={idx}
-            onClick={() => handleTabs(idx)}
-            isClicked={clickState === idx}
-          >
-            {name}
-          </Item>
-        ))}
+        {isMovie
+          ? tabNamesMovie.map((name, idx) => (
+              <Item
+                key={idx}
+                onClick={() => handleTabs(idx)}
+                isClicked={clickState === idx}
+              >
+                {name}
+              </Item>
+            ))
+          : tabNamesTV.map((name, idx) => (
+              <Item
+                key={idx}
+                onClick={() => handleTabs(idx)}
+                isClicked={clickState === idx}
+              >
+                {name}
+              </Item>
+            ))}
       </List>
-      {selectTab(clickState, result)}
+      {selectTab(clickState, result, isMovie)}
     </Header>
   );
 };

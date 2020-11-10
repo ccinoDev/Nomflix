@@ -208,6 +208,7 @@ const Detail = ({
             key={result.id}
             id={result.id}
             result={result}
+            isMovie={isMovie}
           ></DetailTabs>
         </Data>
       </Content>
