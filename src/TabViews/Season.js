@@ -7,27 +7,40 @@ const Container = styled.div``;
 
 const Image = styled.div`
   background-image: url(${(props) => props.bgUrl});
-  height: 180px;
+  height: 200px;
   background-size: cover;
   background-position: center center;
   transition: opacity 0.1s linear;
   margin-bottom: 10px;
+  border-radius: 4px;
 `;
 
 const Name = styled.h3`
   text-align: center;
+  margin-bottom: 5px;
 `;
 
-const Company = ({ logo, name }) => (
+const Date = styled.div`
+  text-align: center;
+  color: grey;
+`;
+
+const Season = ({ poster, name, date }) => (
   <Container>
-    <Image bgUrl={logo ? `https://image.tmdb.org/t/p/w300${logo}` : noImage} />
+    <Image
+      bgUrl={poster ? `https://image.tmdb.org/t/p/w300${poster}` : noImage}
+    />
+
     <Name>{name}</Name>
+    <Date>{date}</Date>
   </Container>
 );
 
-Company.propTypes = {
-  logo: PropTypes.string.isRequired,
+Season.propTypes = {
+  id: PropTypes.string.isRequired,
+  poster: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
 };
 
-export default Company;
+export default Season;

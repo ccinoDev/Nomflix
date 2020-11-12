@@ -4,6 +4,8 @@ import Video from "../TabViews/Video";
 import Company from "../TabViews/Company";
 import Country from "../TabViews/Country";
 import Section from "./Section";
+import Season from "../TabViews/Season";
+import Creators from "../TabViews/Creators";
 
 const Header = styled.header`
   width: 100%;
@@ -37,7 +39,7 @@ const Item = styled.li`
 `;
 
 const tabNamesMovie = ["Videos", "Companies", "Countries"];
-const tabNamesTV = ["Videos", "Companies", "Seasons"];
+const tabNamesTV = ["Videos", "Companies", "Seasons", "Creators"];
 
 export const DetailTabs = ({ result, isMovie }) => {
   const [clickState, setClickState] = useState(0);
@@ -88,6 +90,39 @@ export const DetailTabs = ({ result, isMovie }) => {
             );
           }
         } else {
+          if (result.seasons) {
+            renderData = (
+              <Section title="TV Seasons">
+                {result.seasons.map((season) => (
+                  <Season
+                    key={season.id}
+                    id={season.id}
+                    poster={season.poster_path}
+                    date={season.air_date}
+                    name={season.name}
+                  ></Season>
+                ))}
+              </Section>
+            );
+          }
+        }
+        break;
+      case 3:
+        if (result.created_by) {
+          renderData = (
+            <Section title="TV Creators">
+              {result.created_by.map((creator) => {
+                return (
+                  <Creators
+                    key={creator.id}
+                    id={creator.id}
+                    profile={creator.profile_path}
+                    name={creator.name}
+                  ></Creators>
+                );
+              })}
+            </Section>
+          );
         }
         break;
       default:
@@ -110,15 +145,31 @@ export const DetailTabs = ({ result, isMovie }) => {
                 {name}
               </Item>
             ))
-          : tabNamesTV.map((name, idx) => (
-              <Item
-                key={idx}
-                onClick={() => handleTabs(idx)}
-                isClicked={clickState === idx}
-              >
-                {name}
-              </Item>
-            ))}
+          : tabNamesTV.map((name, idx) => {
+              if (idx === 3 && result.created_by.length > 0) {
+                return (
+                  <Item
+                    key={idx}
+                    onClick={() => handleTabs(idx)}
+                    isClicked={clickState === idx}
+                  >
+                    {name}
+                  </Item>
+                );
+              } else if (idx !== 3) {
+                return (
+                  <Item
+                    key={idx}
+                    onClick={() => handleTabs(idx)}
+                    isClicked={clickState === idx}
+                  >
+                    {name}
+                  </Item>
+                );
+              } else {
+                return null;
+              }
+            })}
       </List>
       {selectTab(clickState, result, isMovie)}
     </Header>
